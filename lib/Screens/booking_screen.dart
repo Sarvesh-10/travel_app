@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_app/Constants/list_of_destination.dart';
 import 'package:travel_app/model/destination.dart';
 import 'package:travel_app/widgets/rating_widget.dart';
 
@@ -47,9 +49,17 @@ class BookingScreen extends StatelessWidget {
                             size: 28,
                           ),
                         ),
-                        Icon(
-                          Icons.favorite_border_rounded,
-                          color: Colors.white,
+                        GestureDetector(
+                          onTap: () {
+                            Provider.of<DestinationData>(context,listen: false)
+                                .toggleIsHeart(dest);
+                          },
+                          child: Icon(
+                            dest.isHearted
+                                ? Icons.favorite
+                                : Icons.favorite_border_rounded,
+                            color: Provider.of<DestinationData>(context).isHearted(dest) ? Colors.red : Colors.white,
+                          ),
                         )
                       ],
                     )),
@@ -100,10 +110,12 @@ class BookingScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Rating_Widget(dest: dest,color: Colors.white,)
-                    ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 10),
+                        child: Rating_Widget(
+                          dest: dest,
+                          color: Colors.white,
+                        )),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 10),

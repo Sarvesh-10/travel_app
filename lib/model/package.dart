@@ -9,7 +9,7 @@ class Package {
 
   final double rating;
   final String description;
-  final bool isHearted;
+  bool isHearted = false;
   final String imageFilePath;
   Package(
       {required this.placeName,
@@ -18,6 +18,10 @@ class Package {
       required this.description,
       required this.isHearted,
       required this.imageFilePath});
+
+  toggleIsHearted() {
+    isHearted = !isHearted;
+  }
 }
 
 

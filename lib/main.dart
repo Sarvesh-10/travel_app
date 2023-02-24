@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_app/Constants/custom_text_styles.dart';
+import 'package:travel_app/Constants/list_of_categories.dart';
+import 'package:travel_app/Constants/list_of_destination.dart';
 
 import 'package:travel_app/Constants/list_of_packages.dart';
 
@@ -18,12 +21,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Travel App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) {
+          return CategoryData();
+        }),
+        ChangeNotifierProvider(create: (context) {
+          return DestinationData();
+        }),
+        ChangeNotifierProvider(create: (context) {
+          return PackageData();
+        })
+      ],
+      child: MaterialApp(
+        title: 'Travel App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Travel Home Page'),
       ),
-      home: const MyHomePage(title: 'Travel Home Page'),
     );
   }
 }
@@ -121,17 +137,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               CategoryListView(),
-
               DestinationListView(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Text(
-                      "Popular Package",
-                      style: subHeadingTextStyle
-                    ),
+                    child: Text("Popular Package", style: subHeadingTextStyle),
                   ),
                   TextButton(
                       onPressed: () {},
@@ -141,7 +153,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ))
                 ],
               ),
-              
               Column(
                 children: [
                   PackageTile(package: listOfPackages[0]),
@@ -156,25 +167,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
-
-
-
 // child: GestureDetector(
-          //   onTap: () {},
-          //   child: CircleAvatar(
-          //     backgroundColor: Colors.white,
-          //     radius: 20,
-          //     child: Icon(
-          //       Icons.favorite,
-          //       color: Colors.red,
-          //     ),
-          //   ),
-          // ),
+//   onTap: () {},
+//   child: CircleAvatar(
+//     backgroundColor: Colors.white,
+//     radius: 20,
+//     child: Icon(
+//       Icons.favorite,
+//       color: Colors.red,
+//     ),
+//   ),
+// ),
 
-
-          //  PageTransition(
-          //           type: PageTransitionType.fade,
-          //           child: BookingScreen(
-          //             dest: dest,
-          //           ))
+//  PageTransition(
+//           type: PageTransitionType.fade,
+//           child: BookingScreen(
+//             dest: dest,
+//           ))

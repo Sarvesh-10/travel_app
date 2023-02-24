@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_app/widgets/rating_widget.dart';
 import '../Constants/list_of_packages.dart';
 import '../model/package.dart';
@@ -15,10 +16,10 @@ class PackageListView extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           return PackageTile(
-            package: listOfPackages[index],
+            package: Provider.of<PackageData>(context).packages[index],
           );
         },
-        itemCount: listOfPackages.length,
+        itemCount: Provider.of<PackageData>(context).packages.length,
       ),
     );
   }
@@ -109,9 +110,17 @@ class PackageTile extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: LikeButton(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                size: 30,
+              child: GestureDetector(
+                onTap: () {
+                  Provider.of<PackageData>(context,listen: false).toggleIsHeart(package);
+                },
+                child: Icon(
+                  package.isHearted
+                      ? Icons.favorite
+                      : Icons.favorite_border_outlined,
+                  color: Provider.of<PackageData>(context).isHearted(package) ? Colors.red : Colors.black,
+                  size: 30,
+                ),
               ),
             )
           ],

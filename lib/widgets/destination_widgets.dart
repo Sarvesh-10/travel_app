@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:like_button/like_button.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_app/widgets/rating_widget.dart';
 
 import '../Constants/list_of_categories.dart';
@@ -19,12 +20,11 @@ class DestinationListView extends StatelessWidget {
       height: 270,
       child: ListView.builder(
           physics: BouncingScrollPhysics(),
-          itemCount: list_of_dests.length,
+          itemCount: Provider.of<DestinationData>(context).ListOfDest.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return DestinationTile(
-              dest: list_of_dests[index],
-            );
+                dest: Provider.of<DestinationData>(context).ListOfDest[index]);
           }),
     );
   }
@@ -101,18 +101,28 @@ class DestinationTile extends StatelessWidget {
                   Padding(
                     padding:
                         const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-                    child: Rating_Widget(dest: dest,color: Colors.white,),
+                    child: Rating_Widget(
+                      dest: dest,
+                      color: Colors.white,
+                    ),
                   ),
                 ]),
           ),
           Positioned(
             right: 20,
             top: 10,
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 22,
-              child: LikeButton(
-                size: 25,
+            child: GestureDetector(
+              onTap: () {
+                Provider.of<DestinationData>(context, listen: false)
+                    .toggleIsHeart(dest);
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 22,
+                child: Icon(
+                  dest.isHearted?Icons.favorite:Icons.favorite_border_outlined,
+                  color: dest.isHearted ? Colors.red : Colors.black,
+                ),
               ),
             ),
           )

@@ -3,7 +3,7 @@ class Destination {
   final String location;
 
   final double rating;
-  final bool isHearted;
+  bool isHearted = false;
   final String Description =
       "One of the most happening beach where you will find water sports, fine dining restaurants,bars and clubs. Situated in North Goa Beach is bordered by Colongule and Anjuna Beaches";
 
@@ -14,4 +14,8 @@ class Destination {
       required this.rating,
       required this.isHearted,
       required this.filePath});
+
+  toggleisHearted() {
+    isHearted = !isHearted;
+  }
 }

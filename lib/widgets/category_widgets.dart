@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Constants/list_of_categories.dart';
 import '../model/category.dart';
+
 class CategoryListView extends StatelessWidget {
   const CategoryListView({super.key});
 
@@ -11,11 +12,11 @@ class CategoryListView extends StatelessWidget {
     return Container(
       height: 90,
       child: ListView.builder(
-          itemCount: listOfCategory.length,
+          itemCount: Provider.of<CategoryData>(context).list.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return CategoryTile(
-              category: listOfCategory[index],
+              category: Provider.of<CategoryData>(context).list[index],
             );
           }),
     );
@@ -37,8 +38,11 @@ class CategoryTile extends StatelessWidget {
               color: category.isSelected! ? Colors.green : Colors.grey),
           borderRadius: BorderRadius.circular(8)),
       height: 90,
-      child: InkWell(
-        onTap: () {},
+      child: GestureDetector(
+        onTap: () {
+          Provider.of<CategoryData>(context, listen: false)
+              .toggleDone(category);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
